@@ -2,11 +2,11 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Alkane Übung</title>
+  <title>Alkane Übung NEU</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
       padding: 20px;
       display: flex;
       justify-content: center;
@@ -17,16 +17,12 @@
       padding: 25px;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 500px;
+      width: 520px;
       text-align: center;
     }
 
     h2 {
-      margin-bottom: 10px;
-    }
-
-    p {
-      margin-bottom: 20px;
+      color: #d35400;
     }
 
     table {
@@ -36,7 +32,7 @@
     }
 
     th {
-      background-color: #4CAF50;
+      background-color: #e67e22;
       color: white;
     }
 
@@ -46,7 +42,7 @@
     }
 
     tr:nth-child(even) {
-      background-color: #f2f2f2;
+      background-color: #f9e4d4;
     }
 
     input {
@@ -64,38 +60,20 @@
       cursor: pointer;
       font-size: 14px;
       margin: 5px;
-      transition: 0.2s;
     }
 
-    button:hover {
-      transform: scale(1.05);
-    }
+    .subBtn { background-color: #3498db; color: white; }
+    .checkBtn { background-color: #2ecc71; color: white; }
 
-    .subBtn {
-      background-color: #2196F3;
-      color: white;
-    }
-
-    .checkBtn {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .correct {
-      background-color: #c8f7c5 !important;
-    }
-
-    .wrong {
-      background-color: #f7c5c5 !important;
-    }
-
+    .correct { background-color: #c8f7c5 !important; }
+    .wrong { background-color: #f7c5c5 !important; }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-<h2>🧪 Alkane: Molekülformeln ergänzen</h2>
+<h2>🧪 Alkane Übung (NEUE VERSION)</h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -125,7 +103,7 @@
   </tr>
   <tr>
     <td><strong>Allgemeine Summenformel</strong></td>
-    <td><input type="text" data-solution="CnH2n+2"></td>
+    <td><input type="text" data-solution="CNH2N+2"></td>
   </tr>
 </table>
 
@@ -140,10 +118,7 @@ function subscript() {
   inputs.forEach(input => {
     let text = input.value;
     text = text.replace(/(\d)/g, function(match) {
-      const subscripts = {
-        '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄',
-        '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'
-      };
+      const subscripts = {'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'};
       return subscripts[match];
     });
     input.value = text;
@@ -154,7 +129,7 @@ function normalize(text) {
   return text
     .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, d => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)])
     .toUpperCase()
-    .trim();
+    .replace(/\s/g, '');
 }
 
 function checkAnswers() {
@@ -176,4 +151,3 @@ function checkAnswers() {
 
 </body>
 </html>
-
