@@ -17,7 +17,7 @@
       padding: 25px;
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 520px;
+      width: 550px;
       text-align: center;
     }
 
@@ -26,17 +26,18 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     th {
       background-color: #e67e22;
       color: white;
+      font-size: 18px;
     }
 
     td, th {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 12px;
     }
 
     tr:nth-child(even) {
@@ -44,19 +45,20 @@
     }
 
     input {
-      width: 90%;
-      padding: 6px;
-      border-radius: 5px;
+      width: 95%;
+      padding: 10px;
+      border-radius: 8px;
       border: 1px solid #ccc;
       text-align: center;
+      font-size: 20px; /* größer für Tiefstellung */
     }
 
     button {
-      padding: 10px 15px;
+      padding: 12px 18px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 16px;
       margin: 5px;
     }
 
@@ -67,11 +69,13 @@
     .wrong { background-color: #f7c5c5 !important; }
 
     .feedback {
-      margin-top: 15px;
-      padding: 10px;
-      border-radius: 8px;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
       font-weight: bold;
-      min-height: 30px;
+      min-height: 40px;
+      font-size: 16px;
+      display: block;
     }
   </style>
 </head>
@@ -112,7 +116,7 @@
 <button class="subBtn" onclick="subscript()">Ziffer tiefstellen</button>
 <button class="checkBtn" onclick="checkAnswers()">Überprüfen</button>
 
-<div id="feedback" class="feedback"></div>
+<div id="feedback" class="feedback">👉 Klicke auf „Überprüfen“, um dein Ergebnis zu sehen.</div>
 
 </div>
 
@@ -145,7 +149,8 @@ function normalize(text) {
 function checkAnswers() {
   let inputs = document.querySelectorAll('input');
   let correctCount = 0;
-  let feedbackText = "";
+  let hasError = false;
+  let missingSubscript = false;
 
   inputs.forEach(input => {
     let original = input.value;
@@ -156,7 +161,8 @@ function checkAnswers() {
 
     if (!hasSubscripts(original)) {
       input.classList.add('wrong');
-      feedbackText = "⚠️ Achte darauf, tiefgestellte Zahlen zu verwenden!";
+      missingSubscript = true;
+      hasError = true;
       return;
     }
 
@@ -165,7 +171,7 @@ function checkAnswers() {
       correctCount++;
     } else {
       input.classList.add('wrong');
-      feedbackText = "❌ Überprüfe deine Formeln (C und H sowie Anzahl der Atome)!";
+      hasError = true;
     }
   });
 
@@ -174,8 +180,11 @@ function checkAnswers() {
   if (correctCount === inputs.length) {
     feedback.innerHTML = "🎉 Sehr gut! Alle Formeln sind richtig!";
     feedback.style.backgroundColor = "#c8f7c5";
-  } else if (correctCount > 0) {
-    feedback.innerHTML = `👍 ${correctCount} von ${inputs.length} richtig. ${feedbackText}`;
+  } else if (missingSubscript) {
+    feedback.innerHTML = "⚠️ Verwende tiefgestellte Zahlen (z. B. CH₄)!";
+    feedback.style.backgroundColor = "#fff3cd";
+  } else if (hasError) {
+    feedback.innerHTML = `👍 ${correctCount} von ${inputs.length} richtig. Überprüfe C, H und die Anzahl der Atome.`;
     feedback.style.backgroundColor = "#fff3cd";
   } else {
     feedback.innerHTML = "❌ Noch nichts richtig. Versuche es erneut!";
