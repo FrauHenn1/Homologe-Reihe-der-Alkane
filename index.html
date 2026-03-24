@@ -71,7 +71,7 @@
 
 <div class="container">
 
-<h2>🧪 Homologe Reihe der Alkane </h2>
+<h2>🧪 Alkane Übung</h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -128,18 +128,47 @@ function normalize(text) {
     .replace(/\s/g, '');
 }
 
+function hasSubscripts(text) {
+  return /[₀₁₂₃₄₅₆₇₈₉]/.test(text);
+}
+
 function checkAnswers() {
   let inputs = document.querySelectorAll('input');
+
   inputs.forEach(input => {
-    let user = normalize(input.value);
+    let original = input.value;
+
+    // tiefgestellte Zahlen zurückwandeln für Vergleich
+    let user = original
+      .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, d => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)])
+      .toUpperCase()
+      .replace(/\s/g, '');
+
     let solution = input.dataset.solution;
 
     input.classList.remove('correct', 'wrong');
 
+    // ❗ NEU: Tiefstellung Pflicht
+    if (!hasSubscripts(original)) {
+      input.classList.add('wrong');
+      input.title = "Bitte verwende tiefgestellte Zahlen (z. B. CH₄)!";
+      return;
+    }
+
     if (user === solution) {
       input.classList.add('correct');
+      input.title = "Richtig!";
     } else {
       input.classList.add('wrong');
+
+      // 👇 Differenziertes Feedback
+      if (!user.startsWith('C')) {
+        input.title = "Die Formel muss mit C beginnen.";
+      } else if (!user.includes('H')) {
+        input.title = "Wasserstoff (H) fehlt.";
+      } else {
+        input.title = "Überprüfe die Anzahl der Atome.";
+      }
     }
   });
 }
