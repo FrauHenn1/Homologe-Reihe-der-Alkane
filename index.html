@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Alkane Übung NEU</title>
+  <title>Alkane Übung</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,9 +21,7 @@
       text-align: center;
     }
 
-    h2 {
-      color: #d35400;
-    }
+    h2 { color: #d35400; }
 
     table {
       border-collapse: collapse;
@@ -73,7 +71,7 @@
 
 <div class="container">
 
-<h2>🧪 Homologe Reihe Alkane </h2>
+<h2>🧪 Homologe Reihe der Alkane </h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -101,13 +99,9 @@
     <td>Pentan</td>
     <td><input type="text" data-solution="C5H12"></td>
   </tr>
-  <tr>
-    <td><strong>Allgemeine Summenformel</strong></td>
-    <td><input type="text" data-solution="CNH2N+2"></td>
-  </tr>
 </table>
 
-
+<button class="subBtn" onclick="subscript()">Ziffer tiefstellen</button>
 <button class="checkBtn" onclick="checkAnswers()">Überprüfen</button>
 
 </div>
@@ -119,19 +113,10 @@ function subscript() {
     let text = input.value;
     const subscripts = {
       '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄',
-      '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉',
-      'n':'ₙ','N':'ₙ','+':'₊'
+      '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'
     };
 
-    text = text.replace(/[0-9nN\+]/g, function(match) {
-      return subscripts[match] || match;
-    });
-
-    input.value = text;
-  });
-};
-      return subscripts[match];
-    });
+    text = text.replace(/[0-9]/g, match => subscripts[match]);
     input.value = text;
   });
 }
@@ -158,45 +143,6 @@ function checkAnswers() {
     }
   });
 }
-// Automatische Tiefstellung beim Tippen
-function autoSubscript(event) {
-  const subscripts = {
-    '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄',
-    '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉',
-    'n':'ₙ','N':'ₙ','+':'₊'
-  };
-
-  let input = event.target;
-  let cursorPos = input.selectionStart;
-  let text = input.value;
-
-  // Nur normale Zeichen umwandeln (keine bereits tiefgestellten)
-  text = text.replace(/[0-9nN\+]/g, (match) => subscripts[match] || match);
-
-  input.value = text;
-
-  // Cursor wieder korrekt setzen
-  input.setSelectionRange(cursorPos, cursorPos);
-};
-
-  let input = event.target;
-  let text = input.value;
-
-  text = text.replace(/[0-9nN\+]/g, function(match) {
-    return subscripts[match] || match;
-  });
-
-  input.value = text;
-}
-
-// Event-Listener für alle Eingabefelder
-window.onload = function() {
-  let inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    input.addEventListener('input', autoSubscript);
-  });
-};
-
 </script>
 
 </body>
