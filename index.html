@@ -73,7 +73,7 @@
 
 <div class="container">
 
-<h2>🧪 Die homologe Reihe der Alkane </h2>
+<h2>🧪 Homologe Reihe Alkane </h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -107,7 +107,7 @@
   </tr>
 </table>
 
-<button class="subBtn" onclick="subscript()">Ziffer tiefstellen</button>
+
 <button class="checkBtn" onclick="checkAnswers()">Überprüfen</button>
 
 </div>
@@ -165,6 +165,19 @@ function autoSubscript(event) {
     '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉',
     'n':'ₙ','N':'ₙ','+':'₊'
   };
+
+  let input = event.target;
+  let cursorPos = input.selectionStart;
+  let text = input.value;
+
+  // Nur normale Zeichen umwandeln (keine bereits tiefgestellten)
+  text = text.replace(/[0-9nN\+]/g, (match) => subscripts[match] || match);
+
+  input.value = text;
+
+  // Cursor wieder korrekt setzen
+  input.setSelectionRange(cursorPos, cursorPos);
+};
 
   let input = event.target;
   let text = input.value;
