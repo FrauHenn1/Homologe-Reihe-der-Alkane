@@ -73,7 +73,7 @@
 
 <div class="container">
 
-<h2>🧪 Alkane Übung (NEUE VERSION)</h2>
+<h2>🧪 Die homologe Reihe der Alkane </h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -117,8 +117,19 @@ function subscript() {
   let inputs = document.querySelectorAll('input');
   inputs.forEach(input => {
     let text = input.value;
-    text = text.replace(/(\d)/g, function(match) {
-      const subscripts = {'0':'₀','1':'₁','2':'₂','3':'₃','4':'₄','5':'₅','6':'₆','7':'₇','8':'₈','9':'₉'};
+    const subscripts = {
+      '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄',
+      '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉',
+      'n':'ₙ','N':'ₙ','+':'₊'
+    };
+
+    text = text.replace(/[0-9nN\+]/g, function(match) {
+      return subscripts[match] || match;
+    });
+
+    input.value = text;
+  });
+};
       return subscripts[match];
     });
     input.value = text;
@@ -147,6 +158,32 @@ function checkAnswers() {
     }
   });
 }
+// Automatische Tiefstellung beim Tippen
+function autoSubscript(event) {
+  const subscripts = {
+    '0':'₀','1':'₁','2':'₂','3':'₃','4':'₄',
+    '5':'₅','6':'₆','7':'₇','8':'₈','9':'₉',
+    'n':'ₙ','N':'ₙ','+':'₊'
+  };
+
+  let input = event.target;
+  let text = input.value;
+
+  text = text.replace(/[0-9nN\+]/g, function(match) {
+    return subscripts[match] || match;
+  });
+
+  input.value = text;
+}
+
+// Event-Listener für alle Eingabefelder
+window.onload = function() {
+  let inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.addEventListener('input', autoSubscript);
+  });
+};
+
 </script>
 
 </body>
