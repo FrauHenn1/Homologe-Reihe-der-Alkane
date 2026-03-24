@@ -16,7 +16,7 @@
       background: white;
       padding: 25px;
       border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 15px 25px rgba(0,0,0,0.2);
       width: 550px;
       text-align: center;
     }
@@ -85,7 +85,7 @@
 
 <div class="container">
 
-<h2>🧪 Alkane Übung</h2>
+<h2>🧪 Homologe Reihe der Alkane</h2>
 <p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
@@ -183,10 +183,10 @@ function checkAnswers() {
     feedback.innerHTML = "🎉 Sehr gut! Alle Formeln sind richtig!";
     feedback.style.backgroundColor = "#c8f7c5";
   } else if (missingSubscript) {
-    feedback.innerHTML = "⚠️ Verwende tiefgestellte Zahlen (z. B. CH₄)!";
+    feedback.innerHTML = "⚠️ Verwende tiefgestellte Zahlen!";
     feedback.style.backgroundColor = "#fff3cd";
   } else if (hasError) {
-    feedback.innerHTML = `👍 ${correctCount} von ${inputs.length} richtig. Überprüfe C, H und die Anzahl der Atome.`;
+    feedback.innerHTML = `👍 ${correctCount} von ${inputs.length} richtig. Überprüfe die Anzahl der Atome.`;
     feedback.style.backgroundColor = "#fff3cd";
   } else {
     feedback.innerHTML = "❌ Noch nichts richtig. Versuche es erneut!";
