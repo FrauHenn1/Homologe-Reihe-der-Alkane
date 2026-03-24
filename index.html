@@ -65,6 +65,14 @@
 
     .correct { background-color: #c8f7c5 !important; }
     .wrong { background-color: #f7c5c5 !important; }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      min-height: 30px;
+    }
   </style>
 </head>
 <body>
@@ -104,6 +112,8 @@
 <button class="subBtn" onclick="subscript()">Ziffer tiefstellen</button>
 <button class="checkBtn" onclick="checkAnswers()">Überprüfen</button>
 
+<div id="feedback" class="feedback"></div>
+
 </div>
 
 <script>
@@ -121,6 +131,10 @@ function subscript() {
   });
 }
 
+function hasSubscripts(text) {
+  return /[₀₁₂₃₄₅₆₇₈₉]/.test(text);
+}
+
 function normalize(text) {
   return text
     .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, d => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)])
@@ -128,49 +142,45 @@ function normalize(text) {
     .replace(/\s/g, '');
 }
 
-function hasSubscripts(text) {
-  return /[₀₁₂₃₄₅₆₇₈₉]/.test(text);
-}
-
 function checkAnswers() {
   let inputs = document.querySelectorAll('input');
+  let correctCount = 0;
+  let feedbackText = "";
 
   inputs.forEach(input => {
     let original = input.value;
-
-    // tiefgestellte Zahlen zurückwandeln für Vergleich
-    let user = original
-      .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, d => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)])
-      .toUpperCase()
-      .replace(/\s/g, '');
-
+    let user = normalize(original);
     let solution = input.dataset.solution;
 
     input.classList.remove('correct', 'wrong');
 
-    // ❗ NEU: Tiefstellung Pflicht
     if (!hasSubscripts(original)) {
       input.classList.add('wrong');
-      input.title = "Bitte verwende tiefgestellte Zahlen (z. B. CH₄)!";
+      feedbackText = "⚠️ Achte darauf, tiefgestellte Zahlen zu verwenden!";
       return;
     }
 
     if (user === solution) {
       input.classList.add('correct');
-      input.title = "Richtig!";
+      correctCount++;
     } else {
       input.classList.add('wrong');
-
-      // 👇 Differenziertes Feedback
-      if (!user.startsWith('C')) {
-        input.title = "Die Formel muss mit C beginnen.";
-      } else if (!user.includes('H')) {
-        input.title = "Wasserstoff (H) fehlt.";
-      } else {
-        input.title = "Überprüfe die Anzahl der Atome.";
-      }
+      feedbackText = "❌ Überprüfe deine Formeln (C und H sowie Anzahl der Atome)!";
     }
   });
+
+  let feedback = document.getElementById("feedback");
+
+  if (correctCount === inputs.length) {
+    feedback.innerHTML = "🎉 Sehr gut! Alle Formeln sind richtig!";
+    feedback.style.backgroundColor = "#c8f7c5";
+  } else if (correctCount > 0) {
+    feedback.innerHTML = `👍 ${correctCount} von ${inputs.length} richtig. ${feedbackText}`;
+    feedback.style.backgroundColor = "#fff3cd";
+  } else {
+    feedback.innerHTML = "❌ Noch nichts richtig. Versuche es erneut!";
+    feedback.style.backgroundColor = "#f7c5c5";
+  }
 }
 </script>
 
