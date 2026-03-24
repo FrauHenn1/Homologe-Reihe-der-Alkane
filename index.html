@@ -4,16 +4,99 @@
   <meta charset="UTF-8">
   <title>Alkane Übung</title>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    table { border-collapse: collapse; width: 50%; }
-    td, th { border: 1px solid #333; padding: 10px; text-align: center; }
-    input { width: 100%; padding: 5px; }
-    button { margin-top: 10px; padding: 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 500px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    td, th {
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    input {
+      width: 90%;
+      padding: 6px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 5px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .subBtn {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    .checkBtn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .correct {
+      background-color: #c8f7c5 !important;
+    }
+
+    .wrong {
+      background-color: #f7c5c5 !important;
+    }
+
   </style>
 </head>
 <body>
 
-<h2>Alkane: Molekülformeln ergänzen</h2>
+<div class="container">
+
+<h2>🧪 Alkane: Molekülformeln ergänzen</h2>
+<p><strong>Aufgabe:</strong> Ergänze die Molekülformeln in der Tabelle.</p>
 
 <table>
   <tr>
@@ -22,29 +105,30 @@
   </tr>
   <tr>
     <td>Methan</td>
-    <td><input type="text"></td>
+    <td><input type="text" data-solution="CH4"></td>
   </tr>
   <tr>
     <td>Ethan</td>
-    <td><input type="text"></td>
+    <td><input type="text" data-solution="C2H6"></td>
   </tr>
   <tr>
     <td>Propan</td>
-    <td><input type="text"></td>
+    <td><input type="text" data-solution="C3H8"></td>
   </tr>
   <tr>
     <td>Butan</td>
-    <td><input type="text"></td>
+    <td><input type="text" data-solution="C4H10"></td>
   </tr>
   <tr>
     <td>Pentan</td>
-    <td><input type="text"></td>
+    <td><input type="text" data-solution="C5H12"></td>
   </tr>
 </table>
 
-<br>
+<button class="subBtn" onclick="subscript()">Ziffer tiefstellen</button>
+<button class="checkBtn" onclick="checkAnswers()">Überprüfen</button>
 
-<button onclick="subscript()">Ziffer tiefstellen</button>
+</div>
 
 <script>
 function subscript() {
@@ -59,6 +143,29 @@ function subscript() {
       return subscripts[match];
     });
     input.value = text;
+  });
+}
+
+function normalize(text) {
+  return text
+    .replace(/[₀₁₂₃₄₅₆₇₈₉]/g, d => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(d)])
+    .toUpperCase()
+    .trim();
+}
+
+function checkAnswers() {
+  let inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    let user = normalize(input.value);
+    let solution = input.dataset.solution;
+
+    input.classList.remove('correct', 'wrong');
+
+    if (user === solution) {
+      input.classList.add('correct');
+    } else {
+      input.classList.add('wrong');
+    }
   });
 }
 </script>
